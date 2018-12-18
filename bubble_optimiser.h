@@ -99,7 +99,7 @@ double *vertex_nx; double *vertex_ny; int *bubble_id; int *min_vertex_id;
 int *edge_id; int*edge_vertex1_id;  int*edge_vertex2_id; double*edge_vertex1_x; double*edge_vertex1_y; double *ee_x; double *ee_y; int *edge_bubble_id;
  double*edge_vertex2_x;
     double*edge_vertex2_y;
-double *min_dist; double**vertex_info; double**edge_info; int i; int edge_number;int  v_counter; int e_counter;
+double *min_dist; double *b1_min_dist;double *b2_min_dist;double *b3_min_dist; double *b4_min_dist; double**vertex_info; double**edge_info; int i; int edge_number;int  v_counter; int e_counter;
  double *b1_vertex_id; double *b2_vertex_id; double *b3_vertex_id; double *b4_vertex_id; double *out_vertex_id;
     double *b1_vertex_x;double* b2_vertex_x;  double *b3_vertex_x;double* b4_vertex_x; double* out_vertex_x; 
     double *b1_vertex_y;double* b2_vertex_y;  double *b3_vertex_y;double* b4_vertex_y; double* out_vertex_y; 
