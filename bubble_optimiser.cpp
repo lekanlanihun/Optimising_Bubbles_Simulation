@@ -732,44 +732,44 @@ b1_e_counter=0;b2_e_counter=0;b3_e_counter=0;b4_e_counter=0;
 //cout<<"get here1"<<endl;
     for(int i=1;i<=number;i++){
           if(BoundingBoxContainsVertices(TopLeftQuadrant, vertex_x[i], vertex_y[i])){
-
+             b1_v_counter++;
             b1_vertex_id[b1_v_counter]=vertex_id[i];
             b1_vertex_x[b1_v_counter]=vertex_x[i];
             b1_vertex_y[b1_v_counter]=vertex_y[i];
             b1_nx[b1_v_counter]=vertex_nx[i];
             b1_ny[b1_v_counter]=vertex_ny[i];
             b1_vert_b_id[b1_v_counter]=bubble_id[i];
-             b1_v_counter++;
+
                      //cout << "vertex_x[" << b1_v_counter <<"]="<< " " << b1_vertex_x[b1_v_counter] << endl;
           }
           else if(BoundingBoxContainsVertices(TopRightQuadrant, vertex_x[i], vertex_y[i])){
-
+              b2_v_counter++;
               b2_vertex_id[b2_v_counter]=vertex_id[i];
               b2_vertex_x[b2_v_counter]=vertex_x[i];
               b2_vertex_y[b2_v_counter]=vertex_y[i];
               b2_nx[b2_v_counter]=vertex_nx[i];
               b2_ny[b2_v_counter]=vertex_ny[i];
               b2_vert_b_id[b2_v_counter]=bubble_id[i];
-               b2_v_counter++;
+
 
           }else if(BoundingBoxContainsVertices(BottomLeftQuadrant, vertex_x[i], vertex_y[i])){
-
+              b3_v_counter++;
              b3_vertex_id[b3_v_counter]=vertex_id[i];
              b3_vertex_x[b3_v_counter]=vertex_x[i];
              b3_vertex_y[b3_v_counter]=vertex_y[i];
              b3_nx[b3_v_counter]=vertex_nx[i];
              b3_ny[b3_v_counter]=vertex_ny[i];
              b3_vert_b_id[b3_v_counter]=bubble_id[i];
- b3_v_counter++;
-          }else if(BoundingBoxContainsVertices(BottomRightQuadrant, vertex_x[i], vertex_y[i])){
 
+          }else if(BoundingBoxContainsVertices(BottomRightQuadrant, vertex_x[i], vertex_y[i])){
+             b4_v_counter++;
              b4_vertex_id[b4_v_counter]=vertex_id[i];
              b4_vertex_x[b4_v_counter]=vertex_x[i];
              b4_vertex_y[b4_v_counter]=vertex_y[i];
              b4_nx[b4_v_counter]=vertex_nx[i];
              b4_ny[b4_v_counter]=vertex_ny[i];
              b4_vert_b_id[b4_v_counter]=bubble_id[i];
-  b4_v_counter++;
+
           }
     }
 
@@ -781,6 +781,7 @@ b1_e_counter=0;b2_e_counter=0;b3_e_counter=0;b4_e_counter=0;
             b1_eex[b1_e_counter]=ee_x[i];
             b1_eey[b1_e_counter]=ee_y[i];
             b1_edge_b_id[b1_e_counter]=edge_bubble_id[i];
+
                      //cout << "vertex_x[" << b1_v_counter <<"]="<< " " << b1_vertex_x[b1_v_counter] << endl;
           }
           else if(BoundingBoxContainsEdges(TopRightQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
@@ -792,7 +793,7 @@ b1_e_counter=0;b2_e_counter=0;b3_e_counter=0;b4_e_counter=0;
                b2_edge_b_id[b2_e_counter]=edge_bubble_id[i];
 
           }else if(BoundingBoxContainsEdges(BottomLeftQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
-              b3_e_counter++;
+             b3_e_counter++;
               b3_evertex1_x[b3_e_counter]=edge_vertex1_x[i];
               b3_evertex1_y[b3_e_counter]=edge_vertex1_y[i];
               b3_eex[b3_e_counter]=ee_x[i];
@@ -800,7 +801,7 @@ b1_e_counter=0;b2_e_counter=0;b3_e_counter=0;b4_e_counter=0;
               b3_edge_b_id[b3_e_counter]=edge_bubble_id[i];
 
           }else if(BoundingBoxContainsEdges(BottomRightQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
-              b4_e_counter++;
+            b4_e_counter++;
               b4_evertex1_x[b4_e_counter]=edge_vertex1_x[i];
               b4_evertex1_y[b4_e_counter]=edge_vertex1_y[i];
               b4_eex[b4_e_counter]=ee_x[i];
