@@ -17,12 +17,20 @@ edge_vertex1_id = new int[edge_number];
     ee_y = new double[edge_number];
     edge_bubble_id = new int[edge_number];
 min_dist= new double[number];
+b1_v_counter=10000;
+b2_v_counter=10000;
+b3_v_counter=10000;
+b4_v_counter=10000;
 
+
+b1_e_counter=10000;
+b2_e_counter=10000;
+b3_e_counter=10000;
+b4_e_counter=10000;
 /*vertex_info=new double*[number];
 for(int i=0;i<number;i++){
 vertex_info[i]=new double[vertex_cols];
 }
-
 edge_info=new double*[number];
 for(int i=0;i<number;i++){
 edge_info[i]=new double[edge_cols];
@@ -41,9 +49,11 @@ edge_vertex1_y[i]=0.0;
 ee_x[i]=0.0;
 ee_y[i]=0.0;
 edge_bubble_id[i]=0;
-
 }*/
 //bubbles_data data;
+
+simple_spatial_partition(x0,  y0, x1,  y1);
+simple_edge_partition();
 read_vertex_file();
 read_edge_file();
 
@@ -58,19 +68,22 @@ for(int i=0;i<number;i++){
 double*array_x=sort(array1,number);
 double x0=array_x[0]; double x1=array_x[number-1];
 //cout<<"array x0="<<array1[0]<<"array x1="<<array1[number-1]<<endl;
-
 double*array_y=sort(array2,number);
 double y0=array_y[number-1]; double y1=array_y[0];*/
 //cout<<"array y1="<<array2[0]<<"array y0="<<array2[number-1]<<endl;
 
 
-//simple_spatial_partition(x0,  y0, x1,  y1);
-
-overlapping_spatial_partition(x0,  y0, x1,  y1);
-count_boundary_box_data();
 
 
-  //cout << "b1_v_counter="<< " " << b1_v_counter<< endl;
+//overlapping_spatial_partition(x0,  y0, x1,  y1);
+//count_boundary_box_data();
+
+
+ /*cout << "b1_e_counter="<< " " << b1_e_counter<< endl;
+  cout << "b2_e_counter="<< " " << b2_e_counter<< endl;
+  cout << "b3_e_counter="<< " " << b3_e_counter<< endl;
+  cout << "b4_e_counter="<< " " << b4_e_counter<< endl;*/
+
 //cout<<"get here1"<<endl;
 b1_vertex_id=new double[b1_v_counter];b1_vertex_x=new double[b1_v_counter];b1_vertex_y=new double[b1_v_counter]; b1_nx=new double[b1_v_counter];b1_ny=new double[b1_v_counter];b1_vert_b_id=new double[b1_v_counter];
 b1_evertex1_x=new double[b1_e_counter];b1_evertex1_y=new double[b1_e_counter]; b1_eex=new double[b1_e_counter];b1_eey=new double[b1_e_counter];b1_edge_b_id=new double[b1_e_counter];
@@ -85,12 +98,13 @@ out_vertex_id=new double[out_v_counter]; out_vertex_x=new double[out_v_counter];
      //cout<<"get here2"<<endl;
 counter=1;
 
+assign_boundary_box_data();
 b1_min_dist= new double[b1_v_counter];
 b2_min_dist= new double[b2_v_counter];
 b3_min_dist= new double[b3_v_counter];
 b4_min_dist= new double[b4_v_counter];
 
-assign_boundary_box_data();
+
 
 for(int i=1;i<=b1_v_counter;i++){
     //cout<<"get inside loop"<<endl;
@@ -100,7 +114,6 @@ for(int i=1;i<=b1_v_counter;i++){
          cout << "b2_nx[" << i <<"]="<< " " << b2_nx[i] << endl;
           cout << "b2_ny[" << i <<"]="<< " " << b2_ny[i] << endl;
           cout << "b2_vert_b_id[" << i <<"]="<< " " << b2_vert_b_id[i] << endl;
-
          cout << "b2_evertex1_x[" << i <<"]="<< " " << b2_evertex1_x[i] << endl;
         cout << "b2_evertex1_y[" << i <<"]"<< " " << b2_evertex1_y[i] << endl;
          cout << "b2_eex[" << i <<"]"<< " " << b2_eex[i] << endl;
@@ -189,7 +202,7 @@ void Bubble_Optimiser::read_edge_file(){
 void Bubble_Optimiser::calc_minimum_distance(){
 //cout<<"get here1"<<endl;
 double vert_x=0.0; double vert_y=0.0; double nx=0.0; double ny=0.0;  int bub_id;
-//double evx=0.0; double evx=0.0; double ee_x=0.0; double ee_y=0.0; 
+//double evx=0.0; double evx=0.0; double ee_x=0.0; double ee_y=0.0;
 double denoms, ll, mm;
 for(int i=1;i<=number;i++){
     min_dist[i]=4;
@@ -320,7 +333,7 @@ for(int j=1;j<=edge_number;j++){
 
 print_mininum_distance();
 
-   
+
 }
 
 
@@ -464,11 +477,15 @@ if(denoms!=0){
 
     }
 
-
 print_mininum_distance();
+
 }
 
 void Bubble_Optimiser::print_mininum_distance() {
+
+       /*for (int i = 1; i <= b1_e_counter; i++) {
+         cout<<i<<" "<<b1_evertex1_x[i]<<" "<<b1_evertex1_y[i]<<endl;
+        }*/
     for (int i = 1; i <= b1_v_counter; i++) {
        cout << "vertex[" << b1_vertex_id[i]<< "].mindistio:=" << " " << b1_min_dist[i] << endl;
     }
@@ -485,26 +502,18 @@ void Bubble_Optimiser::print_mininum_distance() {
 
     /*int count=1;
     for(int i=1;i<=b1_v_counter;i++){
-
         min_dist[count]=b1_min_dist[i];
          count++;
-
     }
-
     for(int i=1;i<=b2_v_counter;i++){
-
         min_dist[count]=b2_min_dist[i];
           count++;
     }
-
     for(int i=1;i<=b3_v_counter;i++){
         min_dist[count]=b3_min_dist[i];
          count++;
-
     }
-
      for(int i=1;i<=b4_v_counter;i++){
-
          min_dist[count]=b4_min_dist[i];
          count++;
      }*/
@@ -560,12 +569,46 @@ void Bubble_Optimiser::simple_spatial_partition(double x0, double y0, double x1,
    // BoundingBox box=this-> boundingBox;
 
     double xmid= (x0 + x1)/2.0;
+    double xquart1 = (x0 + xmid) / 2.0;
+    double xquart2 = (xmid + x1) / 2.0;
     double ymid= (y0 + y1)/2.0;
+    double yquart1 = (y0 + ymid) / 2.0; // first quarter along y axis
+    double yquart2 = (ymid + y1) / 2.0; // second quarter along y axis
+
 
     TopLeftQuadrant=MakeBoundingBox(x0, y0, xmid, ymid);
     TopRightQuadrant=MakeBoundingBox(xmid, y0, x1, ymid);
     BottomLeftQuadrant=MakeBoundingBox(x0,ymid, xmid, y1);
     BottomRightQuadrant=MakeBoundingBox(xmid, ymid, x1, y1);
+
+
+
+}
+
+
+void Bubble_Optimiser::simple_edge_partition(){
+
+   // BoundingBox box=this-> boundingBox;
+
+   /* double xmid= (x0 + x1)/2.0;
+    double xquart1 = (x0 + xmid) / 2.0;
+    double xquart2 = (xmid + x1) / 2.0;
+    double ymid= (y0 + y1)/2.0;
+    double yquart1 = (y0 + ymid) / 2.0; // first quarter along y axis
+    double yquart2 = (ymid + y1) / 2.0; // second quarter along y axis*/
+
+    edgebox1=MakeBoundingBox(-2.0, 2.0, 1.0, -1.0);
+    edgebox2=MakeBoundingBox(-1.0, 2.0, 2.0, -1.0);
+    edgebox3=MakeBoundingBox(-2.0,1.0, -1.0, 2.0);
+    edgebox4=MakeBoundingBox(-1.0, 1.0, 2.0, -2.0);
+
+
+
+   /* edgebox1=MakeBoundingBox(x0, y0, xquart2, yquart2);
+    edgebox2=MakeBoundingBox(xquart1, y0, x1, yquart2);
+    edgebox3=MakeBoundingBox(x0,yquart1, xquart2, y1);
+    edgebox4=MakeBoundingBox(xquart1, yquart1, x1, y1);*/
+
 
 }
 
@@ -661,12 +704,12 @@ bool Bubble_Optimiser::BoundingBoxContainsVertices(BoundingBox boundary,double v
     return contains_vertex_x && contains_vertex_y;
 }
 
-bool Bubble_Optimiser::BoundingBoxContainsEdges(BoundingBox boundary, double e_vertex1_x, double e_vertex1_y/*,double e_vertex2_x,double e_vertex2_y*/){
+bool Bubble_Optimiser::BoundingBoxContainsEdges(BoundingBox boundary, double e_vertex1_x, double e_vertex1_y/*, double e_vertex2_x, double e_vertex2_y*/){
 
        bool contains_e_vertex1_x = boundary.x0 <= e_vertex1_x && e_vertex1_x <= boundary.x1;
        bool contains_e_vertex1_y = boundary.y0 >=e_vertex1_y && e_vertex1_y >= boundary.y1;
       // bool contains_e_vertex2_x = boundary.x0 <= e_vertex2_x && e_vertex2_x <= boundary.x1;
-       //bool contains_e_vertex2_y = boundary.y0 >= e_vertex2_y && e_vertex2_y >= boundary.y1;
+      // bool contains_e_vertex2_y = boundary.y0 >= e_vertex2_y && e_vertex2_y >= boundary.y1;
 
 
        return contains_e_vertex1_x && contains_e_vertex1_y; /*&& contains_e_vertex2_x && contains_e_vertex2_y;*/
@@ -675,7 +718,7 @@ bool Bubble_Optimiser::BoundingBoxContainsEdges(BoundingBox boundary, double e_v
 }
 bool Bubble_Optimiser::BoundingBoxContainsData(BoundingBox boundary,double vertex_x, double vertex_y, double e_vertex1_x, double e_vertex1_y/*,double e_vertex2_x,double e_vertex2_y*/){
 
-   
+
     bool contains_vertex_x = boundary.x0 <= vertex_x && vertex_x <=boundary.x1;
        bool contains_vertex_y = boundary.y0 >= vertex_y && vertex_y >= boundary.y1;
        bool contains_e_vertex1_x = boundary.x0 <= e_vertex1_x && e_vertex1_x <= boundary.x1;
@@ -708,18 +751,39 @@ for(int i=1;i<=number;i++){
 }
 
 
-for(int i=1;i<=edge_number;i++){
-      if(BoundingBoxContainsEdges(TopLeftQuadrant, edge_vertex1_x[i], edge_vertex1_y[i]/*, edge_vertex2_x[i], edge_vertex2_y[i]*/)){
+/*for(int i=1;i<=edge_number;i++){
+      if(BoundingBoxContainsEdges(edgebox1, edge_vertex1_x[i], edge_vertex1_y[i] )){
          b1_e_counter++;
       }
-      else if(BoundingBoxContainsEdges(TopRightQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
+      else if(BoundingBoxContainsEdges(edgebox2, edge_vertex1_x[i], edge_vertex1_y[i])){
           b2_e_counter++;
-      }else if(BoundingBoxContainsEdges(BottomLeftQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
+      }else if(BoundingBoxContainsEdges(edgebox3, edge_vertex1_x[i], edge_vertex1_y[i])){
           b3_e_counter++;
-      }else if(BoundingBoxContainsEdges(BottomRightQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
+      }else if(BoundingBoxContainsEdges(edgebox4, edge_vertex1_x[i], edge_vertex1_y[i])){
+          b4_e_counter++;
+      }
+}*/
+
+for(int i=1;i<=edge_number;i++){
+      if(-2.0 <= edge_vertex1_x[i] && edge_vertex1_x[i] <=1.0 && 2.0 >=edge_vertex1_y[i] && edge_vertex1_y[i]>=-1.0/* &&
+              -2.0 <= edge_vertex2_x[i] && edge_vertex2_x[i] <=1.0 && 2.0 >=edge_vertex2_y[i] && edge_vertex2_y[i]>=-1.0*/ ){
+         b1_e_counter++;
+      }
+      if(-1.0 <= edge_vertex1_x[i] && edge_vertex1_x[i] <=2.0 && 2.0 >=edge_vertex1_y[i] && edge_vertex1_y[i]>=-1.0/* &&
+              -1.0 <= edge_vertex2_x[i] && edge_vertex2_x[i] <=2.0 && 2.0 >=edge_vertex2_y[i] && edge_vertex2_y[i]>=-1.0*/){
+          b2_e_counter++;
+      }
+      if(-2.0 <= edge_vertex1_x[i] && edge_vertex1_x[i] <=1.0 && 1.0 >=edge_vertex1_y[i] && edge_vertex1_y[i]>=-2.0 /*&&
+             -2.0 <= edge_vertex2_x[i] && edge_vertex2_x[i] <=1.0 && 1.0 >=edge_vertex2_y[i] && edge_vertex2_y[i]>=-2.0 */ ){
+          b3_e_counter++;
+      }
+
+     if( -1.0 <= edge_vertex1_x[i] && edge_vertex1_x[i] <=2.0 && 1.0 >=edge_vertex1_y[i] && edge_vertex1_y[i]>=-2.0/* &&
+             -1.0 <= edge_vertex2_x[i] && edge_vertex2_x[i] <=2.0 && 1.0 >=edge_vertex2_y[i] && edge_vertex2_y[i]>=-2.0 */){
           b4_e_counter++;
       }
 }
+
 
 
 
@@ -774,7 +838,9 @@ b1_e_counter=0;b2_e_counter=0;b3_e_counter=0;b4_e_counter=0;
     }
 
     for(int i=1;i<=edge_number;i++){
-          if(BoundingBoxContainsEdges(TopLeftQuadrant, edge_vertex1_x[i], edge_vertex1_y[i]/*, edge_vertex2_x[i], edge_vertex2_y[i]*/)){
+          //if(BoundingBoxContainsEdges(TopLeftQuadrant, edge_vertex1_x[i], edge_vertex1_y[i], edge_vertex2_x[i], edge_vertex2_y[i])){
+        if(-2.0 <= edge_vertex1_x[i] && edge_vertex1_x[i] <=1.95 && 2.0 >=edge_vertex1_y[i] && edge_vertex1_y[i]>=-1.95){
+
              b1_e_counter++;
             b1_evertex1_x[b1_e_counter]=edge_vertex1_x[i];
             b1_evertex1_y[b1_e_counter]=edge_vertex1_y[i];
@@ -784,7 +850,9 @@ b1_e_counter=0;b2_e_counter=0;b3_e_counter=0;b4_e_counter=0;
 
                      //cout << "vertex_x[" << b1_v_counter <<"]="<< " " << b1_vertex_x[b1_v_counter] << endl;
           }
-          else if(BoundingBoxContainsEdges(TopRightQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
+        // if(BoundingBoxContainsEdges(TopRightQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
+        if(-1.95 <= edge_vertex1_x[i] && edge_vertex1_x[i] <=2.0 && 2.0 >=edge_vertex1_y[i] && edge_vertex1_y[i]>=-1.95/* &&
+                -1.0 <= edge_vertex2_x[i] && edge_vertex2_x[i] <=2.0 && 2.0 >=edge_vertex2_y[i] && edge_vertex2_y[i]>=-1.0*/){
                b2_e_counter++;
                b2_evertex1_x[b2_e_counter]=edge_vertex1_x[i];
                b2_evertex1_y[b2_e_counter]=edge_vertex1_y[i];
@@ -792,15 +860,21 @@ b1_e_counter=0;b2_e_counter=0;b3_e_counter=0;b4_e_counter=0;
                b2_eey[b2_e_counter]=ee_y[i];
                b2_edge_b_id[b2_e_counter]=edge_bubble_id[i];
 
-          }else if(BoundingBoxContainsEdges(BottomLeftQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
-             b3_e_counter++;
+          }
+        // if(BoundingBoxContainsEdges(BottomLeftQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
+        if(-2.0 <= edge_vertex1_x[i] && edge_vertex1_x[i] <=1.95 && 1.95 >=edge_vertex1_y[i] && edge_vertex1_y[i]>=-2.0/* &&
+               -2.0 <= edge_vertex2_x[i] && edge_vertex2_x[i] <=1.5 && 1.5 >=edge_vertex2_y[i] && edge_vertex2_y[i]>=-2.0 */ ){
+            b3_e_counter++;
               b3_evertex1_x[b3_e_counter]=edge_vertex1_x[i];
               b3_evertex1_y[b3_e_counter]=edge_vertex1_y[i];
               b3_eex[b3_e_counter]=ee_x[i];
               b3_eey[b3_e_counter]=ee_y[i];
               b3_edge_b_id[b3_e_counter]=edge_bubble_id[i];
 
-          }else if(BoundingBoxContainsEdges(BottomRightQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
+          }
+        // if(BoundingBoxContainsEdges(BottomRightQuadrant, edge_vertex1_x[i], edge_vertex1_y[i])){
+        if( -1.95 <= edge_vertex1_x[i] && edge_vertex1_x[i] <=2.0 && 1.95 >=edge_vertex1_y[i] && edge_vertex1_y[i]>=-2.0/* &&
+                -1.0 <= edge_vertex2_x[i] && edge_vertex2_x[i] <=2.0 && 1.0 >=edge_vertex2_y[i] && edge_vertex2_y[i]>=-2.0 */){
             b4_e_counter++;
               b4_evertex1_x[b4_e_counter]=edge_vertex1_x[i];
               b4_evertex1_y[b4_e_counter]=edge_vertex1_y[i];
@@ -812,7 +886,6 @@ b1_e_counter=0;b2_e_counter=0;b3_e_counter=0;b4_e_counter=0;
     }
 //cout<<"get here2"<<endl;
 }
-
 
 
 
@@ -869,7 +942,6 @@ delete [] vertex_nx; delete [] vertex_ny; delete [] vertex_id;
 delete [] vertex_info[i];
 }
 delete [] vertex_info;
-
 for(int i=0;i<number;i++){
 delete [] edge_info[i];
 }
