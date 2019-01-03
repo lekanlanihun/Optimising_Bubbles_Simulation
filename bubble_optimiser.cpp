@@ -219,6 +219,11 @@ i++;
 }
 
 void Bubble_Optimiser::calc_min_distance(){
+int count=0;
+    for(int i=1; i<=b3_e_counter;i++){
+        count++;
+        //cout<<count<<" "<<b3_evertex1_x[i]<<" "<<b3_evertex1_y[i]<<" "<<b3_eex[i]<<" "<<b3_eey[i]<<" "<<b3_edge_b_id[i]<<endl;
+    }
    /* cout<<"b1_v_counter="<<" "<<b1_v_counter<<endl;
     cout<<"b2_v_counter="<<" "<<b2_v_counter<<endl;
      cout<<"b3_v_counter="<<" "<<b3_v_counter<<endl;
@@ -505,7 +510,7 @@ void Bubble_Optimiser::calc_min_distance(){
 
 
 
-print_mininum_distance();
+//print_mininum_distance();
 
 }
 
@@ -686,15 +691,15 @@ void Bubble_Optimiser::simple_edge_partition(double x0, double y0, double x1, do
     double yquart1 = (y0 + ymid) / 2.0; // first quarter along y axis
     double yquart2 = (ymid + y1) / 2.0; // second quarter along y axis
 
-     edgebox1=MakeBoundingBox(x0, y0, xquart2, yquart2);
+    /*edgebox1=MakeBoundingBox(x0, y0, xquart2, yquart2);
      edgebox2=MakeBoundingBox(xquart1, y0, x1, yquart2);
      edgebox3=MakeBoundingBox(x0,yquart1, xquart2, y1);
-     edgebox4=MakeBoundingBox(xquart1, yquart1, x1, y1);
+     edgebox4=MakeBoundingBox(xquart1, yquart1, x1, y1);*/
 
-    /*edgebox1=MakeBoundingBox(-2.0, 2.0, 1.0, -1.0);
-    edgebox2=MakeBoundingBox(-1.0, 2.0, 2.0, -1.0);
-    edgebox3=MakeBoundingBox(-2.0,1.0, 1.0, -2.0);
-    edgebox4=MakeBoundingBox(-1.0, 1.0, 2.0, -2.0);*/
+    edgebox1=MakeBoundingBox(-2.0, 2.0, 1.0, -2.0);
+    edgebox2=MakeBoundingBox(-2.0, 2.0, 2.0, -1.0);
+    edgebox3=MakeBoundingBox(-2.0,1.0, 2.0, -2.0);
+    edgebox4=MakeBoundingBox(-1.0, 2.0, 2.0, -2.0);
 
     double xthird=x0+1.3;
     double x_2third=xthird+1.3;
